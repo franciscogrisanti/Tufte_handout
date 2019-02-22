@@ -1,0 +1,121 @@
+---
+title: "R For Data Science - Homework 1"
+author: "Francisco Grisanti - PSID 1565858 - Date 2/21/2019"
+output: 
+    tufte::tufte_html: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include = FALSE}
+
+## this are the libraries used for my homework
+## uploaded by the library() function
+library(ISLR)
+library(tufte)
+library(tufterhandout)
+library(ggplot2)
+library(ggthemes)
+```
+
+```{r echo=FALSE}
+
+### we assign the variable obs to the dataframe Weekly
+
+obs <- Weekly
+```
+
+#Weekly Dataset
+
+## Weekly percentage returns for the S&P 500 stock index between 1990 and 2010. 
+
+## A data frame with 1089 observations on the following 9 variables.
+
+#
+
+### Year    - The year that the observation was recorded
+
+### Lag1    - Percentage return for previous week
+
+### Lag2    - Percentage return for 2 weeks previous
+
+### Lag3    - Percentage return for 3 weeks previous
+
+### Lag4    - Percentage return for 4 weeks previous
+
+### Lag5    - Percentage return for 5 weeks previous
+
+### Volume  - Volume of shares traded (average number of daily shares traded in billions)
+
+### Today   - Percentage return for this week
+
+### Direction - A factor with levels Down and Up indicating whether the market had a positive or negative 
+
+## The dataset is organized this way (see subset) and multiple observations are gathered across weeks of years 1990-2010
+
+```{r echo=FALSE}
+knitr::kable(
+  #we use a subset to display the user the form of the dataframe
+  obs[1:5,1:9],caption = 'A subset of Weekly dataset'
+  )
+```
+
+## The summary of all variables and observations 
+
+
+```{r echo=FALSE}
+
+## we call the function sumary() to find all the max,min,etc about out different variables of our dataframe
+
+knitr::kable(
+        summary(obs[1:9]), caption = 'Summary statistics of all features(min, max, mean, median, 1st Q, 3rd Q)'
+                     )
+```
+
+## We can see clearly on the numerically & graphically that the market went up 605 days and Down 485 days
+
+```{r echo=FALSE}
+knitr::kable(summary(obs$Direction), caption = 'Total count of days the market was up or down')
+
+# we use ggplot to plot a bar chart of the data 
+
+p <- ggplot(obs, aes(x = obs$Direction)) + geom_bar() 
+p + theme_tufte() + xlab("Direction of Market") + ylab("Total count")
+
+```
+
+##Studiying the volume across time we notice an exponential increment 
+
+^['We see that up until 2005 the increment in the volume of trades is lineal, but after that breaking point the rise is exponential. Wee also a rare decrease around 2008, year in which US suffered a big recesion']
+
+```{r echo=FALSE}
+
+## we use ggplot to create a two variable plot with geom_jitter aesthetics
+p <- ggplot(obs, aes(x = obs$Year, y=obs$Volume )) + geom_jitter(color="gray22") 
+p + theme_tufte() + xlab("Year") + ylab("Volume") 
+
+
+```
+
+##Studiying the return of the stocks (Today's variable) across time
+
+^['We see that the 2000 & 2008 crisis are represented by a distribution comparatively more tall than the others, and with more outliers']
+
+```{r echo=FALSE}
+
+## we use ggplot to create a boxplot across all year factors
+
+obs$Year <- factor(obs$Year,labels= c("1990",'1991','1992','1993','1994','1995','1996','1997','1998','1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010'))
+
+p <- ggplot(obs, aes(x = obs$Year, y=obs$Today )) + geom_boxplot() 
+
+p + theme_tufte() + xlab("Year") + ylab("")
+
+```
+
+
+
+
+
