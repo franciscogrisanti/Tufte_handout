@@ -1,6 +1,6 @@
 ---
-title: "R For Data Science - Homework 1"
-author: "Francisco Grisanti - PSID 1565858 - Date 2/21/2019"
+title: "Tufte Handout"
+author: "Francisco Grisanti - Date 2/21/2019"
 output: 
     tufte::tufte_html: default
 ---
